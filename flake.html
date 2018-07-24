@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style>
+    *{
+        padding:0;
+        margin:0;
+    }
+</style>
+</head>
+
+<body style='background:#000;overflow:hidden;'>
+<script src='jquery.js'></script>		
+<script type='text/javascript'>
+//$('body').append(`<div id='myid' style='width:${window.innerWidth-20+'px'};height:${window.innerHeight-22+'px'};border:1px solid #f00;'></div>`);
+//myid.style.height=window.innerHeight-2+'px';console.log(window.innerWidth,window.innerHeight);
+var flake = $("<div></div>").css({"position":"absolute"}).html("*");//雪片对象
+function rand(min,max){
+    return Math.round(Math.random()*(max-min)+min);
+}
+$(function () {//页面加载完毕之后
+    var documentWidth = window.innerWidth;//获取浏览器的宽度
+    var documentHight = window.innerHeight;//获取到浏览器的高度
+    setInterval(function () {
+        var startPositionLeft =rand(0,documentWidth);//获取到雪片一开始的时候距离浏览器的left值
+        var endPositionLeft =rand(0,documentWidth);//获取到雪片下落后距离浏览器的left值
+        var flakeSize =rand(5,55);//5~55 产生雪片的随机大小       
+
+        var startOpacity =rand(8,10)/10;//雪片一开始的时候的透明度
+        var endOpacity =rand(2,4)/10;//雪片下落之后的透明度 
+        var durationFall =rand(4000,8000);//雪片下落所需要的时间        
+        var flake2=flake.clone().appendTo($("body")).css({            
+            "font-size": flakeSize,
+            height:flakeSize,
+            "color": '#fff',
+            "opacity": startOpacity,
+            "top": "-55px"
+        });
+        var width=flake2.width();
+        flake2.css('left',startPositionLeft=AnimationEvent+width>documentWidth?documentWidth-width:startPositionLeft);
+        endPositionLeft=endPositionLeft-width>0?endPositionLeft:0;
+        endPositionLeft=endPositionLeft+width>documentWidth?documentWidth-width:endPositionLeft;
+        flake2.animate({
+            "left": endPositionLeft,
+            "top":documentHight-flake2.height(),
+            "opacity": endOpacity
+        }, durationFall, function () {
+            $(this).animate({
+                opacity:0
+            },4000,function(){
+                $(this).remove();
+            });
+        });
+    },10);
+
+/*
+    $(".ig").eq(0).show().siblings().hide();//第一张图片显示其余的图片隐藏
+    var i = 0;
+    setInterval(function () {//图片间隔3s轮播一次
+        i++;
+        if (i == 6) {
+            i = 0;
+        }
+        $(".ig").eq(i).fadeIn(300).siblings().fadeOut(300);
+    }, 3000);
+*/
+});
+</script>
+</body>
+</html>
+
+
+
